@@ -1,0 +1,13 @@
+services:   
+  - type: web     
+    name: Mytodolist-ror 
+    runtime: docker     
+    plan: free     
+    healthCheckPath: /up     
+    disk:       
+      name: rails-storage       
+      mountPath: /rails/storage       
+      sizeGB: 1     
+    envVars:       
+      - key: RAILS_MASTER_KEY         
+        sync: false
