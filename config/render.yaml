@@ -1,10 +1,9 @@
 services:   
   - type: web     
     name: Mytodolist-ror 
-    runtime: ruby     
+    runtime: docker     
     plan: free
-    buildCommand: bundle install 
-    startCommand: bin/dev     
+     
     healthCheckPath: /up     
     disk:       
       name: rails-storage       
