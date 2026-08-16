@@ -14,11 +14,22 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("theme");
+        const theme = savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.style.colorScheme = theme;
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body class="app-body" data-theme="light">
+    <script>
+      document.body.dataset.theme = document.documentElement.dataset.theme || "light";
+    </script>
     <div class="app-shell">
       <header class="app-header">
         <div class="brand-pill">

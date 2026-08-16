@@ -5,21 +5,26 @@
       <h1>Todo List</h1>
     </div>
 
-    <div id="todo-count" class="task-badge">
-      <%= @total_count %> tasks
+    <div class="todo-header-actions">
+      <div id="todo-count" class="task-badge">
+        <%= @total_count %> tasks
+      </div>
+
+      <div class="search-box">
+        <%= form_with url: tasks_path(status: @filter), method: :get, local: true, class: "search-form" do |form| %>
+          <%= form.label :search, "Search tasks", class: "sr-only" %>
+          <%= form.text_field :search, placeholder: "Search tasks…", value: @search, class: "search-input" %>
+          <%= form.hidden_field :status, value: @filter %>
+          <%= form.button class: "search-submit", aria: { label: "Search tasks" }, title: "Search tasks" do %>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 
   <div id="flash-messages">
     <%= render "tasks/flash" %>
-  </div>
-
-  <div class="search-box">
-    <%= form_with url: tasks_path(status: @filter), method: :get, local: true, class: "search-form" do |form| %>
-      <%= form.text_field :search, placeholder: "Search tasks...", value: @search, class: "search-input" %>
-      <%= form.hidden_field :status, value: @filter %>
-      <%= form.submit "Search", class: "search-submit" %>
-    <% end %>
   </div>
 
   <div id="task-form">
