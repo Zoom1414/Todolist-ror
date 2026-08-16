@@ -1,0 +1,31 @@
+<div class="space-y-4">
+  <% if tasks.any? %>
+    <% tasks.each do |task| %>
+      <div class="flex items-center gap-4 rounded-[22px] border border-slate-200 bg-white p-4 shadow-[0_10px_25px_rgba(15,23,42,0.04)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(99,102,241,0.08)] md:p-5">
+        <%= form_with model: task, url: toggle_task_path(task, status: filter), method: :patch, data: { turbo_stream: true } do %>
+          <%= check_box_tag "task[check]", task.id, task.check, class: "h-5 w-5 rounded accent-indigo-600", onchange: "this.form.submit()", aria_label: "Mark task as done" %>
+        <% end %>
+
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="truncate text-lg font-bold <%= task.check ? 'text-slate-400 line-through' : 'text-slate-800' %>"><%= task.title %></h3>
+            <span class="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold tracking-wide <%= task.check ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' %>">
+              <%= task.check ? 'Done' : 'Pending' %>
+            </span>
+          </div>
+          <p class="mt-1 text-sm text-slate-500"><%= task.status_text %></p>
+        </div>
+
+        <div class="ml-auto">
+          <%= button_to "Delete", task_path(task, status: filter), method: :delete, form: { data: { turbo_stream: true } }, class: "task-delete-btn" %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="empty-state-card rounded-[28px] border border-dashed border-slate-200 bg-gradient-to-br from-slate-50 to-indigo-50 px-6 py-14 text-center shadow-inner">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-indigo-100 text-2xl text-indigo-600 shadow-sm">✓</div>
+      <h3 class="mt-4 text-2xl font-black text-slate-700">No tasks yet</h3>
+      <p class="mt-2 text-sm text-slate-500">Add your first task to get started.</p>
+    </div>
+  <% end %>
+</div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Todolist Ror" %></title>
+    <title><%= content_for(:title) || "Todo Flow" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -10,19 +10,65 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="app-body" data-theme="light">
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand-pill">
+          <span class="brand-icon">✓</span>
+          <span class="brand-text">Todo Flow</span>
+        </div>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+      </header>
+
+      <main class="app-main">
+        <%= yield %>
+      </main>
+    </div>
+
+    <script>
+      (function initTheme() {
+        const html = document.documentElement;
+        const body = document.body;
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        // Load saved theme preference or detect system preference
+        let savedTheme = localStorage.getItem('theme');
+        if (!savedTheme) {
+          savedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        
+        // Apply theme
+        function applyTheme(theme) {
+          if (theme === 'dark') {
+            html.style.colorScheme = 'dark';
+            body.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '☀️';
+          } else {
+            html.style.colorScheme = 'light';
+            body.setAttribute('data-theme', 'light');
+            themeToggle.textContent = '🌙';
+          }
+          localStorage.setItem('theme', theme);
+        }
+        
+        // Initial apply
+        applyTheme(savedTheme);
+        
+        // Toggle listener
+        themeToggle.addEventListener('click', function() {
+          const currentTheme = body.getAttribute('data-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          applyTheme(newTheme);
+        });
+      })();
+    </script>
   </body>
 </html>

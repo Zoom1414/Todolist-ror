@@ -1,0 +1,18 @@
+<section class="todo-shell">
+  <div class="todo-header">
+    <div class="todo-header-copy">
+      <p class="eyebrow">Workspace</p>
+      <h1>Edit Task</h1>
+    </div>
+  </div>
+
+  <div id="flash-messages">
+    <%= render "tasks/flash" %>
+  </div>
+
+  <%= render "tasks/edit_form", task: @task, filter: @filter %>
+
+  <div style="margin-top: 24px;">
+    <%= link_to "← Back to tasks", tasks_path(status: @filter), class: "filter-button" %>
+  </div>
+</section>

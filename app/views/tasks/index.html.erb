@@ -1,0 +1,42 @@
+<section class="todo-shell">
+  <div class="todo-header">
+    <div class="todo-header-copy">
+      <p class="eyebrow">Workspace</p>
+      <h1>Todo Flow</h1>
+    </div>
+
+    <div id="todo-count" class="task-badge">
+      <%= @total_count %> tasks
+    </div>
+  </div>
+
+  <div id="flash-messages">
+    <%= render "tasks/flash" %>
+  </div>
+
+  <div class="search-box">
+    <%= form_with url: tasks_path(status: @filter), method: :get, local: true, class: "search-form" do |form| %>
+      <%= form.text_field :search, placeholder: "Search tasks...", value: @search, class: "search-input" %>
+      <%= form.hidden_field :status, value: @filter %>
+      <%= form.submit "Search", class: "search-submit" %>
+    <% end %>
+  </div>
+
+  <div id="task-form">
+    <%= render "tasks/form", task: @task %>
+  </div>
+
+  <div id="task-summary">
+    <%= render "tasks/summary", total_count: @total_count, done_count: @done_count, pending_count: @pending_count %>
+  </div>
+
+  <div class="filter-row">
+    <%= link_to "All", tasks_path(status: "all", search: @search), class: "filter-button #{@filter == 'all' ? 'active' : ''}" %>
+    <%= link_to "Pending", tasks_path(status: "pending", search: @search), class: "filter-button #{@filter == 'pending' ? 'active' : ''}" %>
+    <%= link_to "Done", tasks_path(status: "done", search: @search), class: "filter-button #{@filter == 'done' ? 'active' : ''}" %>
+  </div>
+
+  <div id="task-list-container">
+    <%= render "tasks/list", tasks: @tasks, filter: @filter, search: @search %>
+  </div>
+</section>

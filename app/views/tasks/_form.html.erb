@@ -1,0 +1,15 @@
+<div class="task-form-shell">
+  <%= form_with model: task, url: tasks_path, data: { turbo_stream: true }, class: "task-form" do |form| %>
+    <div class="task-form-row">
+      <%= form.text_field :title, placeholder: "Add a new task..." %>
+      <%= form.date_field :due_date, value: task.due_date&.strftime("%Y-%m-%d") %>
+      <%= form.submit "Add task" %>
+    </div>
+
+    <% if task.errors.any? %>
+      <div class="task-form-error">
+        <%= task.errors.full_messages.join(", ") %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

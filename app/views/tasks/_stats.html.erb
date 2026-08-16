@@ -1,0 +1,14 @@
+<div class="grid gap-4 md:grid-cols-3">
+  <div class="rounded-[24px] border border-indigo-100 bg-gradient-to-br from-indigo-50 to-white p-5 shadow-[0_12px_25px_rgba(79,70,229,0.06)]">
+    <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-indigo-500">Total</p>
+    <div class="text-3xl font-black text-indigo-600"><%= total_count %></div>
+  </div>
+  <div class="rounded-[24px] border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-5 shadow-[0_12px_25px_rgba(16,185,129,0.06)]">
+    <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-emerald-600">Done</p>
+    <div class="text-3xl font-black text-emerald-600"><%= done_count %></div>
+  </div>
+  <div class="rounded-[24px] border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-5 shadow-[0_12px_25px_rgba(245,158,11,0.06)]">
+    <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-amber-600">Pending</p>
+    <div class="text-3xl font-black text-amber-600"><%= pending_count %></div>
+  </div>
+</div>

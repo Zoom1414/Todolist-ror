@@ -1,0 +1,36 @@
+<div class="task-list">
+  <% if tasks.any? %>
+    <% tasks.each do |task| %>
+      <% status_label = task.check ? "Done" : "Pending" %>
+      <% status_class = task.check ? "done" : "pending" %>
+      <% title_class = task.check ? "done-text" : "pending-text" %>
+
+      <div class="task-row">
+        <%= form_with model: task, url: toggle_task_path(task, status: filter, search: search), method: :patch, data: { turbo_stream: true }, class: "toggle-form" do %>
+          <%= check_box_tag "task[check]", task.id, task.check, class: "task-toggle", onchange: "this.form.requestSubmit()", aria_label: "Mark task as done" %>
+        <% end %>
+
+        <div class="task-text-wrap">
+          <h3 class="<%= title_class %>"><%= task.title %></h3>
+          <p><%= task.status_text %></p>
+          <p class="task-due-date"><%= task.due_date_text %></p>
+        </div>
+
+        <span class="task-status <%= status_class %>">
+          <%= status_label %>
+        </span>
+
+        <div class="task-actions">
+          <%= link_to "✏️", edit_task_path(task, status: filter, search: search), class: "task-edit-btn", title: "Edit task" %>
+          <%= button_to "🗑️", task_path(task, status: filter, search: search), method: :delete, form: { data: { turbo_stream: true } }, class: "task-delete-btn" %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="empty-state">
+      <div class="empty-icon">✓</div>
+      <h3>No tasks yet</h3>
+      <p>Add your first task to get started.</p>
+    </div>
+  <% end %>
+</div>

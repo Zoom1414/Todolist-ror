@@ -1,0 +1,17 @@
+<%= turbo_stream.update "flash-messages" do %>
+  <%= render "tasks/flash" %>
+<% end %>
+
+<%= turbo_stream.replace "task-form" do %>
+  <%= render "tasks/form", task: Task.new %>
+<% end %>
+
+<%= turbo_stream.replace "task-summary" do %>
+  <%= render "tasks/summary", total_count: @total_count, done_count: @done_count, pending_count: @pending_count %>
+<% end %>
+
+<%= turbo_stream.update "task-list-container" do %>
+  <%= render "tasks/list", tasks: @tasks, filter: @filter %>
+<% end %>
+
+<%= turbo_stream.update "todo-count", @total_count.to_s + " tasks" %>

@@ -1,0 +1,21 @@
+<div class="task-edit-shell" id="edit-form-<%= task.id %>">
+  <h3 class="edit-modal-title">Edit Task</h3>
+  
+  <%= form_with model: task, url: task_path(task, status: filter), method: :patch, data: { turbo_stream: true }, class: "task-edit-form" do |form| %>
+    <div class="edit-form-row">
+      <%= form.text_field :title, placeholder: "Task title..." %>
+      <%= form.date_field :due_date, value: task.due_date&.strftime("%Y-%m-%d") %>
+    </div>
+
+    <% if task.errors.any? %>
+      <div class="task-form-error">
+        <%= task.errors.full_messages.join(", ") %>
+      </div>
+    <% end %>
+
+    <div class="edit-form-actions">
+      <%= form.submit "Save", class: "edit-save-btn" %>
+      <%= link_to "Cancel", tasks_path(status: filter), class: "edit-cancel-btn" %>
+    </div>
+  <% end %>
+</div>
